@@ -67,7 +67,7 @@ try:
 
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: print(parse_value(p, 1)))
-    allback = FnVoid_VoidP_DataP(parse)
+    callback = FnVoid_VoidP_DataP(parse)
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)
