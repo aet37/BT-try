@@ -57,7 +57,8 @@ try:
             e.set()
 
     def parse(ctx, p):
-        print(parse_value(p))
+        #print(parse_value(p))
+        print(p.contents)
 
     fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
     download_handler = LogDownloadHandler(context = None, \
