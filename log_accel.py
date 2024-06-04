@@ -50,7 +50,7 @@ try:
 
     print("Setup Download handler")
     e = Event()
-    f = fopen('/User/home/hifu/test.csv','w+')
+    f = open('/User/home/hifu/test.csv','w+')
     def progress_update_handler(context, entries_left, total_entries):
         if (entries_left == 0):
             e.set()
