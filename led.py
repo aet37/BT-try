@@ -8,7 +8,9 @@ from threading import Event
 import sys
 
 # connect
-device = MetaWear(sys.argv[1])
+address = 'C5:02:6A:76:E4:5D'
+#device = MetaWear(sys.argv[1])
+device = MetaWear(address)
 device.connect()
 print("Connected to " + device.address + " over " + ("USB" if device.usb.is_connected else "BLE"))
 
