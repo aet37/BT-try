@@ -17,6 +17,10 @@ print("Configuring device")
 
 try:
     print("Get and log acc signal")
+    libmetawear.mbl_mw_acc_set_odr(d.board, 100)  # Start the accelerometer
+    libmetawear.mbl_mw_acc_set_range(d.board, 16) # Set range to +/-16g or closest valid range
+    libmetawear.mbl_mw_acc_write_acceleration_config(d.board)
+
     signal = libmetawear.mbl_mw_acc_get_acceleration_data_signal(d.board)
     logger = create_voidp(lambda fn: libmetawear.mbl_mw_datasignal_log(signal, None, fn), resource = "acc_logger")
     
@@ -56,7 +60,7 @@ try:
         received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), \
         received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
 
-    callback = FnVoid_VoidP_DataP(lambda ctx, p: print("{epoch: %d, value: %s}" % (p.contents.epoch, parse_value(p))))
+    callback = FnVoid_VoidP_DataP(lambda ctx, p: print("%d, %s" % (p.contents.epoch, parse_value(p))))
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)
