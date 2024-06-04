@@ -61,7 +61,7 @@ try:
         received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), \
         received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
 
-    callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s" % (p.contents.epoch, parse_value(p))))
+    callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)

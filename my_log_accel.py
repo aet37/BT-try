@@ -53,7 +53,7 @@ class Accelerometer:
 			return False
 
     # Stop logging and save to file
-    def stop_log(self):
+    def stop_log(self, fpath):
     	try:
 			print("Setop acc")
 			libmetawear.mbl_mw_acc_stop(d.board)
