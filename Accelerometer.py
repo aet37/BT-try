@@ -63,8 +63,8 @@ class Accelerometer:
 			# Setup Download handler
 			e = Event()
 			def progress_update_handler(context, entries_left, total_entries):
-			if (entries_left == 0):
-				e.set()
+				if (entries_left == 0):
+					e.set()
 
 			fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
 			download_handler = LogDownloadHandler(context = None, received_progress_update = fn_wrapper, received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
