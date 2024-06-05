@@ -14,7 +14,7 @@ class Accelerometer:
 		self.logger = []
 
 		# Make the file to print out to
-		f = open(fpath, 'w+')
+		self.f = open(fpath, 'w+')
 
 		# Parsing + logging variables
 		self.firstParse = False
