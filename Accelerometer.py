@@ -62,7 +62,7 @@ class Accelerometer:
 		self.f.write(str(p.contents.epoch - self.time_original))
 		self.time_data.append(p.contents.epoch - self.time_original)
 		self.f.write(', ')
-		parsed_val = parse_value(p)
+		parsed_val = str(parse_value(p))
 		parsed_val = parsed_val.replace('{', '')
 		parsed_val = parsed_val.replace('}', '')
 		parsed_val = parsed_val.replace(':', ',')
