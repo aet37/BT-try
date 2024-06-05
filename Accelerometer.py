@@ -6,13 +6,23 @@ from time import sleep
 class Accelerometer:
 
 	# Setup function
-	def __init__(self, address, fs=100):
+	def __init__(self, address, fpath, fs=100):
 		self.address = address
 		self.fs = fs
 		self.device = MetaWear(address)
 		self.signal = []
 		self.logger = []
-		self.data = []
+
+		# Make the file to print out to
+		f = open(fpath, 'w+')
+
+		# Parsing + logging variables
+		self.firstParse = False
+		self.time_original
+		self.time_data = []
+		self.data_x = []
+		self.data_y = []
+		self.data_z = []
 
 	# Function to connect
 	def connect(self):
@@ -42,6 +52,26 @@ class Accelerometer:
 			print(err)
 			return False
 
+	# Function to parse the data into a .csv file
+	def parse(self, ctx, p):
+		if self.firstParse:
+			self.time_original = p.contents.epoch
+			self.firstParse = False
+
+		self.f.write(p.contents.epoch - time_original)
+		self.data_time.append(p.contents.epoch - time_original)
+		self.f.write(', ')
+		self.parsed_val = parse_value(p)
+		self.data_x.append(parse_value['x'])
+		self.f.write(parse_value['x'])
+		self.f.write(', ')
+		self.data_y.append(parse_value['y'])
+		self.f.write(parse_value['y'])
+		self.f.write(', ')
+		self.data_z.append(parse_value['z'])
+		self.f.write(parse_value['z'])
+		self.f.write('\n')
+
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
 		try:
@@ -68,7 +98,8 @@ class Accelerometer:
 			fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
 			download_handler = LogDownloadHandler(context = None, received_progress_update = fn_wrapper, received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
 
-			callback = FnVoid_VoidP_DataP(lambda ctx, p: print("{epoch: %d, value: %s}" % (p.contents.epoch, parse_value(p))))
+			#callback = FnVoid_VoidP_DataP(lambda ctx, p: print("{epoch: %d, value: %s}" % (p.contents.epoch, parse_value(p))))
+			callback = FnVoid_VoidP_DataP(self.parse)
 
 			# Subscribe to logger
 			libmetawear.mbl_mw_logger_subscribe(self.logger, None, callback)
@@ -89,4 +120,8 @@ class Accelerometer:
 		self.device.on_disconnect = lambda status: e.set()
 		libmetawear.mbl_mw_debug_reset(self.device.board)
 		e.wait()
+
+		# Set the flag to set the right time when downloading
+		self.firstParse = True
+		self.f.close()
 		return True
