@@ -5,7 +5,7 @@ address = 'C5:02:6A:76:E4:5D'
 fpath = '/home/hifu/test.csv'
 
 # Create the Accerlerometer device
-accelDevice = Accelerometer(address)
+accelDevice = Accelerometer(address, fpath)
 
 # Connect the Device
 isConnected = accelDevice.connect()
