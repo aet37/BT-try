@@ -40,9 +40,9 @@ class Accelerometer:
 			return True # If run sucessful
 
 		except:
-		RuntimeError as err:
-			print(err)
-			return False
+			RuntimeError as err:
+				print(err)
+				return False
 
     # Stop logging and save to file
     def stop_log(self, fpath=''):
