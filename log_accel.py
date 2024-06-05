@@ -7,8 +7,6 @@ from threading import Event
 
 import sys
 
-global firstParse
-firstParse = True
 
 address = 'C5:02:6A:76:E4:5D'
 print("Searching for device...")
@@ -65,15 +63,13 @@ try:
     data_z = []
     data_time = []
     def parse(ctx, p):
-        if firstParse:
-            time_original = p.contents.epoch
-            firstParse = False
-
-        data_time.append(p.contents.epoch - time_original)
+        '''
+        data_time.append(p.contents.epoch)
         parsed_val = parse_value(p)
         data_x.append(parse_value['x'])
         data_y.append(parse_value['y'])
         data_z.append(parse_value['z'])
+        '''
         print(parse_value['x'])
 
 
