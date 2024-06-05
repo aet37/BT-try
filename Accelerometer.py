@@ -59,7 +59,8 @@ class Accelerometer:
 			self.time_original = p.contents.epoch
 			self.firstParse = False
 
-		self.f.write(str(p.contents.epoch - self.time_original))
+		#self.f.write(str(p.contents.epoch - self.time_original))
+		self.f.write(str(p.contents.epoch))
 		self.time_data.append(p.contents.epoch - self.time_original)
 		self.f.write(', ')
 		parsed_val = str(parse_value(p))
