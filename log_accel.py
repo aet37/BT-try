@@ -32,7 +32,7 @@ try:
     libmetawear.mbl_mw_acc_start(d.board)
 
     print("Logging data for 10s")
-    sleep(10.0)
+    sleep(1.0)
 
     print("Setop acc")
     libmetawear.mbl_mw_acc_stop(d.board)
@@ -78,7 +78,7 @@ try:
     download_handler = LogDownloadHandler(context = None, \
         received_progress_update = fn_wrapper, \
         received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), \
-        received_unhandled_entry = cast(None, FnVoid_VoidP_DataP, f))
+        received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
 
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: print(parse_value(p, 1)))
