@@ -50,7 +50,7 @@ try:
 
     print("Setup Download handler")
     e = Event()
-    f = open('/home/hifu/test.csv','w+')
+    f = open('/home/hifu/test.csv','w')
 
     def progress_update_handler(context, entries_left, total_entries):
         if (entries_left == 0):
@@ -58,7 +58,7 @@ try:
 
     firstParse = True
     time_original = 0
-    def parse(ctx, p, file):
+    def parse(ctx, p, f):
         if firstParse:
             time_original = p.contents.epoch
             firstParse = False
@@ -78,11 +78,11 @@ try:
     download_handler = LogDownloadHandler(context = None, \
         received_progress_update = fn_wrapper, \
         received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), \
-        received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
+        received_unhandled_entry = cast(None, FnVoid_VoidP_DataP, f))
 
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: print(parse_value(p, 1)))
-    callback = FnVoid_VoidP_DataP(parse, f)
+    callback = FnVoid_VoidP_DataP(parse)
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)
