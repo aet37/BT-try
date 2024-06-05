@@ -70,7 +70,7 @@ try:
         data_y.append(parse_value['y'])
         data_z.append(parse_value['z'])
         '''
-        print(parse_value(p, 'x'))
+        print(p.parse_value('x'))
 
 
     fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
