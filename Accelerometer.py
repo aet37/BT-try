@@ -57,11 +57,12 @@ class Accelerometer:
 	def parse(self, ctx, p):
 		if self.firstParse:
 			self.time_original = int(p.contents.epoch)
+			print('First parse = ' + str(self.time_original))
 			self.firstParse = False
 
 		self.f.write(str(int(p.contents.epoch) - self.time_original))
 		self.time_data.append(p.contents.epoch - self.time_original)
-		self.f.write(', ')
+		self.f.write(',')
 		parsed_val = str(parse_value(p))
 		parsed_val = parsed_val.replace('{', '')
 		parsed_val = parsed_val.replace('}', '')
@@ -71,10 +72,10 @@ class Accelerometer:
 
 		self.data_x.append(float(parsed_val[1]))
 		self.f.write(parsed_val[1])
-		self.f.write(', ')
+		self.f.write(',')
 		self.data_y.append(float(parsed_val[3]))
 		self.f.write(parsed_val[3])
-		self.f.write(', ')
+		self.f.write(',')
 		self.data_z.append(float(parsed_val[5]))
 		self.f.write(parsed_val[5])
 		self.f.write('\n')
