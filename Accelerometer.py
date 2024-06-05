@@ -18,7 +18,7 @@ class Accelerometer:
 
 		# Parsing + logging variables
 		self.firstParse = False
-		self.time_original
+		self.time_original = 0
 		self.time_data = []
 		self.data_x = []
 		self.data_y = []
