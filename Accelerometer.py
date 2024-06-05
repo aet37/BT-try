@@ -18,7 +18,7 @@ class Accelerometer:
 		self.f.truncate()
 
 		# Parsing + logging variables
-		self.firstParse = False
+		self.firstParse = True
 		self.time_original = 0
 		self.time_data = []
 		self.data_x = []
