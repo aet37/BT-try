@@ -7,6 +7,9 @@ from threading import Event
 
 import sys
 
+global firstParse
+firstParse = True
+
 address = 'C5:02:6A:76:E4:5D'
 print("Searching for device...")
 d = MetaWear(address)
@@ -56,7 +59,6 @@ try:
         if (entries_left == 0):
             e.set()
 
-    firstParse = True
     time_original = 0
     data_x = []
     data_y = []
