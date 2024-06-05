@@ -9,7 +9,6 @@ class Accelerometer:
 	def __init__(self, address, fs=100):
 		self.address = address
 		self.fs = fs
-		self.debug = debug
 		self.device = MetaWear(address)
 		self.signal = []
 		self.logger = []
