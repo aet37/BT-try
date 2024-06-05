@@ -39,10 +39,9 @@ class Accelerometer:
 
 			return True # If run sucessful
 
-		except:
-			RuntimeError as err:
-				print(err)
-				return False
+		except RuntimeError as err:
+			print(err)
+			return False
 
     # Stop logging and save to file
     def stop_log(self, fpath=''):
@@ -81,10 +80,9 @@ class Accelerometer:
 
 			return True # Signal sucess
 
-		except:
-			RuntimeError as err:
-				print(err)
-				return False
+		except RuntimeError as err:
+			print(err)
+			return False
 
 	# Reset the device
 	def reset(self):
