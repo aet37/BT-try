@@ -43,9 +43,9 @@ class Accelerometer:
 			print(err)
 			return False
 
-    # Stop logging and save to file
-    def stop_log(self, fpath=''):
-    	try:
+	# Stop logging and save to file
+	def stop_log(self, fpath=''):
+		try:
 			# Setop acc
 			libmetawear.mbl_mw_acc_stop(self.device.board)
 			libmetawear.mbl_mw_acc_disable_acceleration_sampling(self.device.board)
