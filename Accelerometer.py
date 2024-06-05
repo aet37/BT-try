@@ -58,18 +58,18 @@ class Accelerometer:
 			self.time_original = p.contents.epoch
 			self.firstParse = False
 
-		self.f.write(p.contents.epoch - self.time_original)
+		self.f.write(str(p.contents.epoch - self.time_original))
 		self.data_time.append(p.contents.epoch - self.time_original)
 		self.f.write(', ')
 		self.parsed_val = parse_value(p)
 		self.data_x.append(parse_value['x'])
-		self.f.write(parse_value['x'])
+		self.f.write(str(parse_value['x']))
 		self.f.write(', ')
 		self.data_y.append(parse_value['y'])
-		self.f.write(parse_value['y'])
+		self.f.write(str(parse_value['y']))
 		self.f.write(', ')
 		self.data_z.append(parse_value['z'])
-		self.f.write(parse_value['z'])
+		self.f.write(str(parse_value['z']))
 		self.f.write('\n')
 
 	# Stop logging and save to file
