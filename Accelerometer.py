@@ -63,18 +63,21 @@ class Accelerometer:
 		self.time_data.append(p.contents.epoch - self.time_original)
 		self.f.write(', ')
 		parsed_val = parse_value(p)
-		print(parsed_val['x'])
-		'''
-		self.data_x.append(parsed_val['x'])
-		self.f.write(str(parsed_val['x']))
+		parsed_val = parsed_val.replace('{', '')
+		parsed_val = parsed_val.replace('}', '')
+		parsed_val = parsed_val.replace(':', ',')
+		parsed_val = parsed_val.replace(' ', '')
+		parsed_val = parsed_val.split(',')
+
+		self.data_x.append(float(parsed_val[1]))
+		self.f.write(parsed_val[1])
 		self.f.write(', ')
-		self.data_y.append(parsed_val['y'])
-		self.f.write(str(parsed_val['y']))
+		self.data_y.append(float(parsed_val[3]))
+		self.f.write(parsed_val[3])
 		self.f.write(', ')
-		self.data_z.append(parsed_val['z'])
-		self.f.write(str(parsed_val['z']))
+		self.data_z.append(float(parsed_val[5]))
+		self.f.write(parsed_val[5])
 		self.f.write('\n')
-		'''
 
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
