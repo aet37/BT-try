@@ -56,9 +56,23 @@ try:
         if (entries_left == 0):
             e.set()
 
-    def parse(ctx, p):
-        #print(parse_value(p))
-        print(p.contents)
+    firstParse = True
+    time_original = 0
+    def parse(ctx, p, file):
+        if firstParse:
+            time_original = p.contents.epoch
+            firstParse = False
+
+        f.write(p.contents.epoch - time_original)
+        f.write(' ')
+        parsed_val = parse_value(p)
+        f.write(parse_value['x'])
+        f.write(' ')
+        f.write(parse_value['y'])
+        f.write(' ')
+        f.write(parse_value['z'])
+        f.write('\n')
+
 
     fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
     download_handler = LogDownloadHandler(context = None, \
@@ -68,7 +82,7 @@ try:
 
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: print(parse_value(p, 1)))
-    callback = FnVoid_VoidP_DataP(parse)
+    callback = FnVoid_VoidP_DataP(parse, f)
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)
