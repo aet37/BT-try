@@ -58,20 +58,20 @@ try:
 
     firstParse = True
     time_original = 0
-    def parse(ctx, p, f):
+    data_x = []
+    data_y = []
+    data_z = []
+    data_time = []
+    def parse(ctx, p):
         if firstParse:
             time_original = p.contents.epoch
             firstParse = False
 
-        f.write(p.contents.epoch - time_original)
-        f.write(' ')
+        data_time.append(p.contents.epoch - time_original)
         parsed_val = parse_value(p)
-        f.write(parse_value['x'])
-        f.write(' ')
-        f.write(parse_value['y'])
-        f.write(' ')
-        f.write(parse_value['z'])
-        f.write('\n')
+        data_x.append(parse_value['x'])
+        data_y.append(parse_value['y'])
+        data_z.append(parse_value['z'])
 
 
     fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
@@ -82,7 +82,7 @@ try:
 
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: f.write("%d, %s\n" % (p.contents.epoch, parse_value(p))))
     #callback = FnVoid_VoidP_DataP(lambda ctx, p: print(parse_value(p, 1)))
-    callback = FnVoid_VoidP_DataP(parse(f))
+    callback = FnVoid_VoidP_DataP(parse)
     
     print("Subscribe to logger")
     libmetawear.mbl_mw_logger_subscribe(logger, None, callback)
