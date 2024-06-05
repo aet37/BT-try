@@ -55,7 +55,7 @@ class Accelerometer:
 
 	# Function to parse the data into a .csv file
 	def parse(self, ctx, p):
-		print('Through function')
+		print(self.firstParse)
 		if self.firstParse:
 			self.time_original = int(p.contents.epoch)
 			print('First parse = ' + str(self.time_original))
