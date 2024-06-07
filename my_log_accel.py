@@ -2,7 +2,8 @@ from Accelerometer import *
 
 # Set the address
 address = 'C5:02:6A:76:E4:5D'
-fpath = '/home/hifu/test.csv'
+#fpath = '/home/hifu/test.csv'
+fpath = '/c/Users/rasla/Desktop/test.csv'
 
 # Create the Accerlerometer device
 accelDevice = Accelerometer(address, fpath)
