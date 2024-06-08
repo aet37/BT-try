@@ -11,6 +11,7 @@ class Accelerometer:
 		self.address = address
 		self.fs = fs
 		self.device = MetaWear(address)
+		self.device.reset()
 		self.signal = []
 		self.logger = []
 
