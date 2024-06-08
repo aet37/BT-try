@@ -41,6 +41,7 @@ class Accelerometer:
 	def connect_with_reset(self):
 		self.device.connect()
 		libmetawear.mbl_mw_debug_reset(self.device.board)
+		sleep(5)
 		self.device.connect()
 		#print(State(self.device))
 		return True
@@ -62,6 +63,7 @@ class Accelerometer:
 
 			# Start the logger
 			self.signal = libmetawear.mbl_mw_acc_get_acceleration_data_signal(self.device.board)
+			print('Got here')
 			self.logger = create_voidp(lambda fn: libmetawear.mbl_mw_datasignal_log(self.signal, None, fn), resource = "acc_logger")
 			libmetawear.mbl_mw_logging_start(self.device.board, 0)
 
