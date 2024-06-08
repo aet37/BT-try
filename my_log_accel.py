@@ -9,7 +9,7 @@ fpath = '/home/hifu/test.csv'
 accelDevice = Accelerometer(address, fpath)
 
 # Connect the Device
-isConnected = accelDevice.connect_with_reset()
+isConnected = accelDevice.connect()
 if isConnected:
 	print("Connected to " + accelDevice.device.address)
 
