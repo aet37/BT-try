@@ -25,6 +25,9 @@ class Accelerometer:
 		self.data_y = []
 		self.data_z = []
 
+		# For debugging (data length)
+		self.ii = 0
+
 	# Function to connect
 	def connect(self):
 		self.device.connect()
@@ -55,7 +58,14 @@ class Accelerometer:
 
 	# Function to parse the data into a .csv file
 	def parse(self, ctx, p):
-		print('Written')
+
+		if self.ii == 0:
+			t0 = time.time()
+
+		self.ii += 1
+
+		print('Written' + str(self.ii))
+
 		if self.firstParse:
 			self.time_original = int(p.contents.epoch)
 			self.firstParse = False
@@ -117,6 +127,9 @@ class Accelerometer:
 			libmetawear.mbl_mw_logging_download(self.device.board, 0, byref(download_handler))
 			e.wait()
 
+			print('  Done.')
+			self.t1 = time.time()
+			print('Time Elapsed (Download): ' + str(t1-t0) + 's')
 			return True # Signal sucess
 
 		except RuntimeError as err:

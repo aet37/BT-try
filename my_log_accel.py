@@ -24,8 +24,10 @@ sleep(20)
 # Stop the recording and save the file
 print('Downloading data...')
 isDownloaded = accelDevice.stop_log()
+'''
 if isDownloaded:
 	print('  Done.')
+'''
 
 # Reset the Device
 print('Reseting...')
