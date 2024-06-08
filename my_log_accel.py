@@ -19,11 +19,12 @@ if isRecording:
 	print("Recording...")
 
 # Collect for 2 seconds
-sleep(300)
+sleep(20)
 
 # Stop the recording and save the file
 print('Downloading data...')
 isDownloaded = accelDevice.stop_log()
+
 '''
 if isDownloaded:
 	print('  Done.')
