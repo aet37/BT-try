@@ -95,6 +95,8 @@ class Accelerometer:
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
 		try:
+			self.connect()
+
 			# Setop acc
 			libmetawear.mbl_mw_acc_stop(self.device.board)
 			libmetawear.mbl_mw_acc_disable_acceleration_sampling(self.device.board)
