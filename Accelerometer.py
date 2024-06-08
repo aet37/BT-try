@@ -40,7 +40,7 @@ class Accelerometer:
 	# Function to connect with reset of the board
 	def connect_with_reset(self):
 		self.device.connect()
-		libmetawear.mbl_mw_debug_reset(slef.device.board)
+		libmetawear.mbl_mw_debug_reset(self.device.board)
 		print(State(self.device))
 		return True
 
