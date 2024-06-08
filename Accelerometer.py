@@ -1,5 +1,6 @@
 from mbientlab.metawear import MetaWear, libmetawear, parse_value, create_voidp, create_voidp_int
 from mbientlab.metawear.cbindings import *
+from mbientlab.warble import *
 from threading import Event
 import time
 from time import sleep
@@ -16,6 +17,7 @@ class Accelerometer:
 		self.logger = []
 
 		# Handle disconnect
+		self.device.on_disconnect = lambda status: print("DISCONNECTED")
 		#self.disconnect_event = Event()
 		#self.disconnect_event.clear()
 		#self.device.on_disconnect = lambda s: self.disconnect_event.set()
@@ -35,9 +37,18 @@ class Accelerometer:
 		# For debugging (data length)
 		self.ii = 0
 
-	# Function to connect
+	# Function to connect with reset of the board
+	def connect_with_reset(self):
+		self.device.connect()
+		libmetawear.mbl_mw_debug_reset(slef.device.board)
+		print(State(self.device))
+		return True
+
+	# Function to connect without any resetting of the board
 	def connect(self):
 		self.device.connect()
+		libmetawear.mbl_mw_debug_reset(slef.device.board)
+		print(State(self.device))
 		return True
 
 	# Start logging the acceleration
@@ -101,9 +112,11 @@ class Accelerometer:
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
 		try:
-			#if self.disconnect_event.is_set():
-			#	self.connect()
-			#	self.disconnect_event.clear()
+			'''
+			if self.disconnect_event.is_set():
+				self.connect()
+				self.disconnect_event.clear()
+				'''
 
 			# Setop acc
 			libmetawear.mbl_mw_acc_stop(self.device.board)
