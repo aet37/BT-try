@@ -14,6 +14,11 @@ class Accelerometer:
 		self.signal = []
 		self.logger = []
 
+		# Handle disconnect
+		self.disconnect_event = Event()
+		self.disconnect_event.clear()
+		self.device.on_disconnect = lambda s: self.disconnect_event.set()
+
 		# Make the file to print out to
 		self.f = open(fpath, 'w+')
 		self.f.truncate()
@@ -95,7 +100,9 @@ class Accelerometer:
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
 		try:
-			self.connect()
+			if self.disconnect_event.is_set():
+				self.connect()
+				self.disconnect_event.clear()
 
 			# Setop acc
 			libmetawear.mbl_mw_acc_stop(self.device.board)
