@@ -19,7 +19,7 @@ if isRecording:
 	print("Recording...")
 
 # Collect for 2 seconds
-sleep(2)
+sleep(20)
 
 # Stop the recording and save the file
 print('Downloading data...')
