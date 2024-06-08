@@ -14,7 +14,7 @@ d = MetaWear(address)
 d.connect()
 print("Connected to " + d.address + " over " + ("USB" if d.usb.is_connected else "BLE"))
 
-print(d.ble.is_connected)
+print(d.is_connected)
 
 print("Configuring device")
 
