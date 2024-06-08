@@ -130,7 +130,7 @@ class Accelerometer:
 
 			print('  Done.')
 			self.t1 = time.time()
-			print('Time Elapsed (Download): ' + str(t1-t0) + 's')
+			print('Time Elapsed (Download): ' + str(self.t1 - self.t0) + 's')
 			return True # Signal sucess
 
 		except RuntimeError as err:
