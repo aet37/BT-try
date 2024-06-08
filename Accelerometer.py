@@ -1,6 +1,7 @@
 from mbientlab.metawear import MetaWear, libmetawear, parse_value, create_voidp, create_voidp_int
 from mbientlab.metawear.cbindings import *
 from threading import Event
+import time
 from time import sleep
 
 class Accelerometer:
@@ -60,7 +61,7 @@ class Accelerometer:
 	def parse(self, ctx, p):
 
 		if self.ii == 0:
-			t0 = time.time()
+			self.t0 = time.time()
 
 		self.ii += 1
 
