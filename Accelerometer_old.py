@@ -18,8 +18,9 @@ class Accelerometer:
 
 		# Handle disconnect
 		self.device.on_disconnect = lambda status: print("DISCONNECTED")
-		self.isConnected = False
-		self.device.on_disconnect = lambda s: self.disconnect_event.set()
+		#self.disconnect_event = Event()
+		#self.disconnect_event.clear()
+		#self.device.on_disconnect = lambda s: self.disconnect_event.set()
 
 		# Make the file to print out to
 		self.f = open(fpath, 'w+')
