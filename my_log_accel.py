@@ -17,8 +17,8 @@ while not isConnected:
 
 print("Connected to " + accelDevice.device.address)
 
-print('Device battery: ')
-print(accelDevice.get_battery())
+#print('Device battery: ')
+#print(accelDevice.get_battery())
 
 # Start logging and recording
 isRecording = accelDevice.log()
