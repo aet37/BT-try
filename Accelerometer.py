@@ -138,9 +138,9 @@ class Accelerometer:
 
 				# Print the progress
 				if entries_left == total_entries:
-					print('Downloading 0/', + str(total_entries), end='')
+					print('Downloading 0/' + str(total_entries), end='')
 				else:
-					print('Downloading 0/', + str(total_entries), end='')
+					print('Downloading 0/' + str(total_entries - entries_left), end='')
 
 				# Set event that download is done (MAIN POINT OF FUNCTION)
 				if (entries_left == 0):
