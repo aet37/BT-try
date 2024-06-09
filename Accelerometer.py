@@ -17,7 +17,7 @@ class Accelerometer:
 		self.logger = []
 
 		# Handle disconnect
-		self.device.on_disconnect = lambda status: print("DISCONNECTED")
+		self.device.on_disconnect = lambda status: self.try_connect_continous()
 		#self.isConnected = False
 		#self.device.on_disconnect = lambda s: self.disconnect_event.set()
 
@@ -47,6 +47,15 @@ class Accelerometer:
 
 		except:
 			print('  Connection failed.')
+
+	def try_connect_continous(self):
+		print('DISCONNECTED')
+
+		isConnected = False
+		while not isConnected:
+			print('  Trying reconnect ...')
+			isConnected = self.connect()
+			sleep(1.5)
 
 	# Start logging the acceleration
 	def log(self):
