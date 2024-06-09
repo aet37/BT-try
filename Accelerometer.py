@@ -122,19 +122,19 @@ class Accelerometer:
 
 	# To run every time data is logged
 	def progress_update_handler(self, context, entries_left, total_entries):
-		'''
+
 		# Print the progress
 		if entries_left == total_entries:
 			print('Downloading 0/' + str(total_entries), end='')
 		else:
 			print('Downloading 0/' + str(total_entries - entries_left), end='')
-		'''
+
 
 		# Set event that download is done (MAIN POINT OF FUNCTION)
 		if (entries_left == 0):
 			self.done_download.set()
-			#print('\n')
-			#print('  Download complete.')
+			print('\n')
+			print('  Download complete.')
 
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
