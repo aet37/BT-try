@@ -26,6 +26,7 @@ class Accelerometer:
 		self.f.truncate()
 
 		# Parsing + logging variables
+		self.done_download = Event()	# Logging event flag
 		self.firstParse = True
 		self.time_original = 0
 		self.time_data = []
@@ -131,7 +132,7 @@ class Accelerometer:
 
 		# Set event that download is done (MAIN POINT OF FUNCTION)
 		if (entries_left == 0):
-			e.set()
+			self.done_download.set()
 			#print('\n')
 			#print('  Download complete.')
 
@@ -158,9 +159,6 @@ class Accelerometer:
 			libmetawear.mbl_mw_settings_set_connection_parameters(self.device.board, 7.5, 7.5, 0, 6000)
 			sleep(1.0)
 
-			# Setup Download handler
-			e = Event()
-
 			#
 			# Fxn taken from here
 			#
@@ -176,7 +174,7 @@ class Accelerometer:
 
 			# Download data
 			libmetawear.mbl_mw_logging_download(self.device.board, 0, byref(download_handler))
-			e.wait()
+			self.done_download.wait()
 
 			print('  Done.')
 			self.t1 = time.time()
