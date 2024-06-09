@@ -37,7 +37,7 @@ class Accelerometer:
 		self.ii = 0
 
 	def get_battery(self):
-		return libmetawear.mbl_mw_settings_get_battery_state_data_signal(board)
+		return libmetawear.mbl_mw_settings_get_battery_state_data_signal(self.device.board)
 
 	# Function to connect without any resetting of the board
 	def connect(self):
