@@ -41,8 +41,12 @@ class Accelerometer:
 
 	# Function to connect without any resetting of the board
 	def connect(self):
-		self.device.connect()
-		return True
+		try:
+			self.device.connect()
+			return True
+
+		except:
+			print('  Connection failed.')
 
 	# Start logging the acceleration
 	def log(self):

@@ -9,9 +9,13 @@ fpath = '/home/hifu/test.csv'
 accelDevice = Accelerometer(address, fpath)
 
 # Connect the Device
-isConnected = accelDevice.connect()
-if isConnected:
-	print("Connected to " + accelDevice.device.address)
+isConnected = False
+while not isConnected:
+	isConnected = accelDevice.connect()
+	sleep(1.5)
+
+
+print("Connected to " + accelDevice.device.address)
 
 print('Device battery: ')
 print(accelDevice.get_battery())
