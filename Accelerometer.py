@@ -120,7 +120,7 @@ class Accelerometer:
 		self.f.write('\n')
 
 	# To run every time data is logged
-	def progress_update_handler(context, entries_left, total_entries):
+	def progress_update_handler(self, context, entries_left, total_entries):
 		'''
 		# Print the progress
 		if entries_left == total_entries:
@@ -165,7 +165,7 @@ class Accelerometer:
 			# Fxn taken from here
 			#
 
-			fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
+			fn_wrapper = FnVoid_VoidP_UInt_UInt(self.progress_update_handler)
 			download_handler = LogDownloadHandler(context = None, received_progress_update = fn_wrapper, received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
 
 			#callback = FnVoid_VoidP_DataP(lambda ctx, p: print("{epoch: %d, value: %s}" % (p.contents.epoch, parse_value(p))))
