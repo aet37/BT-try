@@ -192,7 +192,7 @@ class Accelerometer:
 		e = Event()
 		self.device.on_disconnect = lambda status: e.set()
 		libmetawear.mbl_mw_debug_reset(self.device.board)
-		libmetawear.mbl_mw_metawearboard_free(self.device.board)
+		#libmetawear.mbl_mw_metawearboard_free(self.device.board)
 		e.wait()
 
 		# Set the flag to set the right time when downloading
