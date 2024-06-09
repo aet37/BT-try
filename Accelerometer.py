@@ -37,7 +37,7 @@ class Accelerometer:
 		self.ii = 0
 
 	def get_battery(self):
-		return libmetawear.mbl_mw_settings_get_battery_state_data_signal(self.device.board)
+		return libmetawear.mbl_mw_settings_read_battery_state(self.device.board)
 
 	# Function to connect without any resetting of the board
 	def connect(self):
@@ -48,6 +48,7 @@ class Accelerometer:
 		except:
 			print('  Connection failed.')
 
+	# Continously try to reconnect (Device disconnect event calls this)
 	def try_connect_continous(self):
 		print('DISCONNECTED')
 
@@ -118,6 +119,22 @@ class Accelerometer:
 		self.f.write(parsed_val[5])
 		self.f.write('\n')
 
+	# To run every time data is logged
+	def progress_update_handler(context, entries_left, total_entries):
+		'''
+		# Print the progress
+		if entries_left == total_entries:
+			print('Downloading 0/' + str(total_entries), end='')
+		else:
+			print('Downloading 0/' + str(total_entries - entries_left), end='')
+		'''
+
+		# Set event that download is done (MAIN POINT OF FUNCTION)
+		if (entries_left == 0):
+			e.set()
+			#print('\n')
+			#print('  Download complete.')
+
 	# Stop logging and save to file
 	def stop_log(self, fpath=''):
 		try:
@@ -125,7 +142,7 @@ class Accelerometer:
 			if self.disconnect_event.is_set():
 				self.connect()
 				self.disconnect_event.clear()
-				'''
+			'''
 
 			# Setop acc
 			libmetawear.mbl_mw_acc_stop(self.device.board)
@@ -143,19 +160,10 @@ class Accelerometer:
 
 			# Setup Download handler
 			e = Event()
-			def progress_update_handler(context, entries_left, total_entries):
 
-				# Print the progress
-				if entries_left == total_entries:
-					print('Downloading 0/' + str(total_entries), end='')
-				else:
-					print('Downloading 0/' + str(total_entries - entries_left), end='')
-
-				# Set event that download is done (MAIN POINT OF FUNCTION)
-				if (entries_left == 0):
-					e.set()
-					print('\n')
-					print('  Download complete.')
+			#
+			# Fxn taken from here
+			#
 
 			fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
 			download_handler = LogDownloadHandler(context = None, received_progress_update = fn_wrapper, received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
