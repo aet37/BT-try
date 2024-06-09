@@ -18,8 +18,8 @@ class Accelerometer:
 
 		# Handle disconnect
 		self.device.on_disconnect = lambda status: print("DISCONNECTED")
-		self.isConnected = False
-		self.device.on_disconnect = lambda s: self.disconnect_event.set()
+		#self.isConnected = False
+		#self.device.on_disconnect = lambda s: self.disconnect_event.set()
 
 		# Make the file to print out to
 		self.f = open(fpath, 'w+')
@@ -36,14 +36,8 @@ class Accelerometer:
 		# For debugging (data length)
 		self.ii = 0
 
-	# Function to connect with reset of the board
-	def connect_with_reset(self):
-		self.device.connect()
-		libmetawear.mbl_mw_debug_reset(self.device.board)
-		sleep(5)
-		self.device.connect()
-		#print(State(self.device))
-		return True
+	def get_battery(self):
+		return libmetawear.mbl_mw_settings_get_battery_state_data_signal(board)
 
 	# Function to connect without any resetting of the board
 	def connect(self):
@@ -53,16 +47,16 @@ class Accelerometer:
 	# Start logging the acceleration
 	def log(self):
 		try:
+
+			# Start the logger
+			self.signal = libmetawear.mbl_mw_acc_get_acceleration_data_signal(self.device.board)
+			self.logger = create_voidp(lambda fn: libmetawear.mbl_mw_datasignal_log(self.signal, None, fn), resource = "acc_logger")
+			libmetawear.mbl_mw_logging_start(self.device.board, 0)
+
 			# Configure the board with the right frequency and g
 			libmetawear.mbl_mw_acc_set_odr(self.device.board, self.fs)	# Start the accelerometer
 			libmetawear.mbl_mw_acc_set_range(self.device.board, 16)	# Set range to +/-16g or closest valid range
 			libmetawear.mbl_mw_acc_write_acceleration_config(self.device.board)
-
-			# Start the logger
-			self.signal = libmetawear.mbl_mw_acc_get_acceleration_data_signal(self.device.board)
-			print('Got here')
-			self.logger = create_voidp(lambda fn: libmetawear.mbl_mw_datasignal_log(self.signal, None, fn), resource = "acc_logger")
-			libmetawear.mbl_mw_logging_start(self.device.board, 0)
 
 			# Start the sampling
 			libmetawear.mbl_mw_acc_enable_acceleration_sampling(self.device.board)
@@ -71,7 +65,9 @@ class Accelerometer:
 			return True # If run sucessful
 
 		except RuntimeError as err:
+			print('\nException caught ... See eror below.')
 			print(err)
+
 			return False
 
 	# Function to parse the data into a .csv file
@@ -82,7 +78,7 @@ class Accelerometer:
 
 		self.ii += 1
 
-		print('Written' + str(self.ii))
+		#print('Written' + str(self.ii))
 
 		if self.firstParse:
 			self.time_original = int(p.contents.epoch)
@@ -130,13 +126,23 @@ class Accelerometer:
 
 			# Downloading data")
 			libmetawear.mbl_mw_settings_set_connection_parameters(self.device.board, 7.5, 7.5, 0, 6000)
-			sleep(1)
+			sleep(1.0)
 
 			# Setup Download handler
 			e = Event()
 			def progress_update_handler(context, entries_left, total_entries):
+
+				# Print the progress
+				if entries_left == total_entries:
+					print('Downloading 0/', + str(total_entries), end='')
+				else:
+					print('Downloading 0/', + str(total_entries), end='')
+
+				# Set event that download is done (MAIN POINT OF FUNCTION)
 				if (entries_left == 0):
 					e.set()
+					print('\n')
+					print('  Download complete.')
 
 			fn_wrapper = FnVoid_VoidP_UInt_UInt(progress_update_handler)
 			download_handler = LogDownloadHandler(context = None, received_progress_update = fn_wrapper, received_unknown_entry = cast(None, FnVoid_VoidP_UByte_Long_UByteP_UByte), received_unhandled_entry = cast(None, FnVoid_VoidP_DataP))
@@ -165,6 +171,7 @@ class Accelerometer:
 		e = Event()
 		self.device.on_disconnect = lambda status: e.set()
 		libmetawear.mbl_mw_debug_reset(self.device.board)
+		libmetawear.mbl_mw_metawearboard_free(self.c.board)
 		e.wait()
 
 		# Set the flag to set the right time when downloading

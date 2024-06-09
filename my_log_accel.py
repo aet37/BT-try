@@ -13,6 +13,9 @@ isConnected = accelDevice.connect()
 if isConnected:
 	print("Connected to " + accelDevice.device.address)
 
+print('Device battery: ')
+print(accelDevice.get_battery())
+
 # Start logging and recording
 isRecording = accelDevice.log()
 if isRecording:
@@ -24,11 +27,6 @@ sleep(20)
 # Stop the recording and save the file
 print('Downloading data...')
 isDownloaded = accelDevice.stop_log()
-
-'''
-if isDownloaded:
-	print('  Done.')
-'''
 
 # Reset the Device
 print('Reseting...')
